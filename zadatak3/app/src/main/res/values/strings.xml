@@ -1,0 +1,15 @@
+<resources>
+    <string name="posts">Postovi</string>
+    <string name="app_name">MojaApp</string>
+    <string name="kreiraj_Post">Kreiraj Post</string>
+    <string name="citaj_Post">Citaj post</string>
+    <string name="settings">podesavanja</string>
+    <string name="password">password</string>
+    <string name="korisnicko_ime">korisnicko ime</string>
+
+    <string name="naslov">naslov posta</string>
+    <string name="opis_posta">opis posta</string>
+    <string name="kreiraj_post_dugme"> kreiraj post </string>
+    <string name="dodaj_sliku"> dodaj sliku</string>
+    <string name="empty">izaberite sliku</string>
+</resources>
