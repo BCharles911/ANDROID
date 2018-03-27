@@ -19,10 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreatePostActivity" />
-        <activity android:name=".PostsActivity" />
-        <activity android:name=".ReadPostActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+   <activity android:name=".PostsActivity"
+    android:label="Postovi"
+    />
+<activity android:name=".CreatePostActivity"
+    android:label="Kreiranje Postova"/>
+<activity android:name=".ReadPostActivity"
+    android:label="Citaj postove"/>
+<activity android:name=".SettingsActivity"
+    android:label="Podesavanja"></activity>
+
     </application>
 
 </manifest>
