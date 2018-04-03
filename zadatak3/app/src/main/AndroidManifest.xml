@@ -21,12 +21,16 @@
         </activity>
    <activity android:name=".PostsActivity"
     android:label="Postovi"
+       android:theme="@style/AppTheme"
     />
 <activity android:name=".CreatePostActivity"
+    android:theme="@style/AppTheme"
     android:label="Kreiranje Postova"/>
 <activity android:name=".ReadPostActivity"
+    android:theme="@style/AppTheme"
     android:label="Citaj postove"/>
 <activity android:name=".SettingsActivity"
+    android:theme="@style/AppTheme"
     android:label="Podesavanja"></activity>
 
     </application>

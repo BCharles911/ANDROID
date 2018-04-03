@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_posts_pocetna"
+        android:icon="@drawable/ic_home"
+        android:title="@string/pocetna"/>
+    <item
+        android:id="@+id/nav_posts_prikaz_objava"
+        android:icon="@drawable/ic_post"
+        android:title="@string/nav_prikazi" />
+    <item
+        android:id="@+id/nav_posts_pravljenje_objave"
+        android:icon="@drawable/ic_createpost"
+        android:title="@string/nav_objavi" />
+    <item
+        android:id="@+id/nav_posts_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
+
+
+
+
+</menu>

@@ -1,0 +1,19 @@
+
+<!-- showAsAction never ustvari pravi overflow -->
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.CreatePostsActivity">
+
+    <item
+        android:id="@+id/cpmenupotvrdi"
+        android:title="@string/potvrdi_kreiranje"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/cpmenuodustani"
+        android:title="@string/odustani"
+        app:showAsAction="never"/>
+
+</menu>

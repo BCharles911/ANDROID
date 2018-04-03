@@ -6,10 +6,37 @@
     <string name="settings">podesavanja</string>
     <string name="password">password</string>
     <string name="korisnicko_ime">korisnicko ime</string>
+    <string name="back">back</string>
 
     <string name="naslov">naslov posta</string>
     <string name="opis_posta">opis posta</string>
     <string name="kreiraj_post_dugme"> kreiraj post </string>
     <string name="dodaj_sliku"> dodaj sliku</string>
     <string name="empty">izaberite sliku</string>
+    <string name="about">informacije</string>
+
+
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="nav_item_attachment">Attachment</string>
+    <string name="nav_item_images">Images</string>
+    <string name="nav_item_location">My Location</string>
+    <string name="nav_sub_menu">Sub Menu</string>
+    <string name="nav_sub_menu_item01">Sub Menu Item 1</string>
+    <string name="nav_sub_menu_item02">Sub Menu Item 2</string>
+    <string name="drawer_header_text">Drawer Header</string>
+    <string name="second_activity_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel dignissim pharetra. Vivamus pharetra augue quis rhoncus placerat. Sed ultricies at risus non cursus. Nam rutrum leo nec placerat consectetur. Vestibulum feugiat eleifend diam, nec interdum augue tincidunt sit amet. Praesent feugiat est auctor lacus consectetur, vitae pellentesque dolor laoreet.</string>
+    <string name="title_activity_second">SecondActivity</string>
+
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+
+    <string name="nav_prikazi">Prikazi postove</string>
+    <string name="nav_objavi">Kreiraj post</string>
+    <string name="nav_settings">Podesavanja</string>
+    <string name="obrisi_objavu">Obrisi</string>
+    <string name="potvrdi_kreiranje">Potvrdi</string>
+    <string name="odustani">Odustani</string>
+    <string name="pocetna">Pocetna stranica</string>
+
 </resources>
