@@ -1,5 +1,6 @@
 package com.example.user.aplikacija;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import android.Manifest;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +30,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import fragments.MyFragment;
+import tools.FragmentTransition;
 
 public class PostsActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -38,11 +43,12 @@ public class PostsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_posts);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setIcon(R.drawable.ic_post);
 
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -93,9 +99,16 @@ public class PostsActivity extends AppCompatActivity {
         });
 
 */
+        FragmentTransition.to(MyFragment.newInstance(),this,false);
 
 
     }
+
+        @Override
+        public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+        return super.onCreateView(parent, name, context, attrs);
+        }
+
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
             // Inflate the menu; this adds items to the action bar if it is present.
@@ -151,77 +164,7 @@ public class PostsActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void btnCreatePostActivity(View view) {
-        Intent kreirajPostIntent = new Intent(this, CreatePostActivity.class);
-        startActivity(kreirajPostIntent);
-    }
 
-    public void btnReadPostActivity(View view) {
-        Intent procitajPostIntent = new Intent(this, ReadPostActivity.class);
-        startActivity(procitajPostIntent);
-    }
-
-    public void btnSettingsPostActivity(View view) {
-        Intent podesavanjaIntent = new Intent(this, SettingsActivity.class);
-        startActivity(podesavanjaIntent);
-    }
-
-    public static class DesignDemoFragment extends Fragment {
-        private static final String TAB_POSITION = "tab_position";
-
-        public DesignDemoFragment() {
-
-        }
-
-        public static DesignDemoFragment newInstance(int tabPosition) {
-            DesignDemoFragment fragment = new DesignDemoFragment();
-            Bundle args = new Bundle();
-            args.putInt(TAB_POSITION, tabPosition);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            Bundle args = getArguments();
-            int tabPosition = args.getInt(TAB_POSITION);
-
-            ArrayList<String> items = new ArrayList<String>();
-            for (int i = 0; i < 50; i++) {
-                items.add("Tab #" + tabPosition + " item #" + i);
-            }
-
-            View v =  inflater.inflate(R.layout.fragment_list_view, container, false);
-            RecyclerView recyclerView = (RecyclerView)v.findViewById(R.id.recyclerview);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(new DesignDemoRecyclerAdapter(items));
-
-            return v;
-        }
-    }
-
-    static class DesignDemoPagerAdapter extends FragmentStatePagerAdapter {
-
-        public DesignDemoPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return DesignDemoFragment.newInstance(position);
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "Tab " + position;
-        }
-    }
 
 
 

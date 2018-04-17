@@ -1,78 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-android:id="@+id/drawer_layout"
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:fitsSystemWindows="true">
-
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/coordinator"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    app:headerLayout="@layout/drawer_header"
     android:layout_height="match_parent">
+
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways">
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
 
 
 
 
 
-                <Button
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
-                    android:text="@string/kreiraj_Post"
-                    android:background="?attr/colorPrimaryDark"
-                    android:onClick="btnCreatePostActivity"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:text="@string/citaj_Post"
-                    android:background="?attr/colorPrimaryDark"
-                    android:onClick="btnReadPostActivity"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right"
-                    android:text="@string/settings"
-                    android:background="?attr/colorPrimaryDark"
-                    android:onClick="btnSettingsPostActivity"
-                    />
 
 
-
-
-        </android.support.v7.widget.Toolbar>
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:tabGravity="fill"/>
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <!-- The main content view -->
+        <RelativeLayout
+            android:id="@+id/mainContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
 
     <!--    <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -84,16 +52,14 @@ android:fitsSystemWindows="true">
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:src="@drawable/ic_done"/>-->
 
-</android.support.design.widget.CoordinatorLayout>
 
-<android.support.design.widget.NavigationView
-    android:id="@+id/navigation_view"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_gravity="start"
-    app:headerLayout="@layout/drawer_header"
-    app:menu="@menu/drawer"/>
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/drawer_header"
+            app:menu="@menu/drawer"/>
 
-
-
-</android.support.v4.widget.DrawerLayout>
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>
