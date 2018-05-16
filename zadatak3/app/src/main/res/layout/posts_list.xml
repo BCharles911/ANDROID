@@ -34,4 +34,28 @@
         android:layout_toEndOf="@+id/item_icon"
         android:padding="5dp"/>
 
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/popularity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/tvPopular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/popularity"
+        android:layout_below="@id/date"
+        android:layout_marginTop="10dp"
+        android:text="Popularity: "/>
+
+
 </RelativeLayout>

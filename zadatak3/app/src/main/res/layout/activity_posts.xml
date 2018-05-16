@@ -35,10 +35,16 @@
 
 
     <!-- The main content view -->
-        <RelativeLayout
+ <!--       <RelativeLayout
             android:id="@+id/mainContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+-->
+
+        <ListView
+            android:id="@+id/listPostView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
 

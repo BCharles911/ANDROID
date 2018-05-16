@@ -1,7 +1,9 @@
 package fragments;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,7 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.aplikacija.PostsActivity;
@@ -21,47 +25,57 @@ import model.Post;
 import tools.Mockup;
 
 
-public class MyFragment extends ListFragment {
-
-    public static String USER_KEY = "rs.reviewer.USER_KEY";
-
-    public static MyFragment newInstance() {
-
-        MyFragment mpf = new MyFragment();
-
-        return mpf;
-    }
+public class MyFragment extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle data) {
-        setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.map_layout, vg, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
 
-        return view;
+        View myInflatedView = inflater.inflate(R.layout.content_detail, container,false);
+////////////
+        Post post = (Post) getArguments().getSerializable("post");
+////////////////
+        TextView postTitle = (TextView) myInflatedView.findViewById(R.id.tvTitle);
+        postTitle.setText(post.getTitle());
+
+        TextView postDescription = (TextView) myInflatedView.findViewById(R.id.tvDescription);
+        postDescription.setText(post.getDescription());
+
+        ImageView image = (ImageView) myInflatedView.findViewById(R.id.ivPhoto);
+
+        TextView postDate = (TextView) myInflatedView.findViewById(R.id.tvDate);
+        String dateString = post.getDate().toString().substring(3, 16);
+        postDate.setText(dateString);
+
+
+        if (post.getAvatar() == -1){
+            image.setImageResource(R.drawable.einstein);
+        }
+        if (post.getAvatar() == -2){
+            image.setImageResource(R.drawable.tesla);
+        }
+        if (post.getAvatar() == -3){
+            image.setImageResource(R.drawable.ramanujan);
+        }
+        if (post.getAvatar() == -4){
+            image.setImageResource(R.drawable.newton);
+        }
+        if (post.getAvatar() == -5){
+            image.setImageResource(R.drawable.kepler);
+        }
+
+        return myInflatedView;
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
 
-        Post post = Mockup.getPosts().get(position);
-
-        Intent intent = new Intent(getActivity(), ReadPostActivity.class);
-        intent.putExtra("title", post.getTitle());
-        intent.putExtra("description", post.getDescription());
-        startActivity(intent);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //Toast.makeText(getActivity(), "onActivityCreated()", Toast.LENGTH_SHORT).show();
+    //Toast.makeText(getActivity(), "onActivityCreated()", Toast.LENGTH_SHORT).show();
 
         //Dodaje se adapter
-        PostsAdapter adapter = new PostsAdapter(getActivity());
-        setListAdapter(adapter);
+       // PostsAdapter adapter = new PostsAdapter(getActivity());
+       // setListAdapter(adapter);
     }
-
+/*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -83,5 +97,4 @@ public class MyFragment extends ListFragment {
             Toast.makeText(getActivity(), "Create Text", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
-    }
-}
+    }*/

@@ -1,6 +1,8 @@
 package com.example.user.aplikacija;
 
 import android.content.Intent;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,13 +17,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends PreferenceActivity {
     private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+
+
+        getFragmentManager().beginTransaction().replace(android.R.id.content,
+                new PrefsFragment()).commit();
+
+        // setContentView(R.layout.activity_settings);
  /*       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -30,7 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 */
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    /*    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -66,8 +73,19 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-
+*/
     }
+/*    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        switch (id) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(menuItem);
+    }*/
 
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
@@ -78,12 +96,12 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
 
-    }
+    }*/
 
 /*    public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -109,7 +127,7 @@ public class SettingsActivity extends AppCompatActivity {
     }*/
 
 
-
+/*
 
     public void selectItem(int position){
         Intent intent = null;
@@ -122,7 +140,7 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
         }
         startActivity(intent);
-    }
+    }*/
 
 
     @Override
@@ -151,10 +169,24 @@ public class SettingsActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+/*
     public void btnBackOnPost(View view) {
         Intent postActivity = new Intent(this, PostsActivity.class);
         startActivity(postActivity);
 
+    }
+*/
+
+
+    public static class PrefsFragment extends PreferenceFragment {
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            // Load the preferences from an XML resource
+            addPreferencesFromResource(R.xml.preferences);
+        }
     }
 }
 

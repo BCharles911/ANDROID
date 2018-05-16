@@ -16,7 +16,7 @@ public class FragmentTransition {
         FragmentTransaction transaction = activity.getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.mainContent, newFragment);
+                .replace(R.id.container, newFragment);
         if(addToBackStack) transaction.addToBackStack(null);
         transaction.commit();
     }

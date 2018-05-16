@@ -2,9 +2,10 @@ package model;
 
 import android.os.AsyncTask;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Comment {
+public class Comment implements Serializable {
     private int id;
     private String title;
     private String description;
@@ -13,7 +14,35 @@ public class Comment {
     private Post post;
     private int likes;
     private int dislikes;
-   // private AsyncTask.Status status;
+    private boolean deleted;
+
+
+    public Comment() {
+
+    }
+
+    public Comment(String title, String description, Date date, int likes, int dislikes){
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.likes = likes;
+        this.dislikes = dislikes;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+    // private AsyncTask.Status status;
+
+
+
+    public int getPopularity(){
+        return likes - dislikes;
+    }
 
     public int getId() {
         return id;

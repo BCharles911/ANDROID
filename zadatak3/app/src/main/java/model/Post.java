@@ -3,26 +3,58 @@ package model;
 import android.graphics.Bitmap;
 import android.location.Location;
 
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Post {
+public class Post implements Serializable, Comparable<Post> {
 
     private int id;
 
-
     private String title;
+
     private String description;
+
     private int avatar;
-    private Bitmap photo;
+
+  //  private Bitmap photo;
     private User author;
     private Date date;
     private Location location;
-    private List<Tag> tags;
-    private List<Comment> comments;
+
+    private ArrayList<Tag> tags;
+
+    private List<Comment>  comments = new ArrayList<>();
+
     private int likes;
+
     private int dislikes;
 
+    public static List<Post> jsonArrayToList(JsonArray jsonArray){
+        List<Post> posts = new ArrayList<>();
+        for(JsonElement element : jsonArray){
+            JsonObject postJsonObject = element.getAsJsonObject();
+            Integer id = postJsonObject.get("id").getAsInt();
+            String title = postJsonObject.get("title").getAsString();
+            String description = postJsonObject.get("description").getAsString();
+            int likes = postJsonObject.get("likes").getAsInt();
+            int dislikes = postJsonObject.get("dislikes").getAsInt();
+            Post post = new Post();
+            post.setId(id);
+            post.setTitle(title);
+            post.setDescription(description);
+            post.setLikes(likes);
+            post.setDislikes(dislikes);
+            posts.add(post);
+        }
+        return posts;
+    }
 
 
     public Post(String title, String description, int avatar) {
@@ -30,6 +62,50 @@ public class Post {
         this.description = description;
         this.avatar = avatar;
     }
+
+    public Post(){
+
+    }
+
+
+
+    public Post(String title, String description,String author, int avatar, Date date, int likes, int dislikes) {
+        this.title = title;
+        this.description = description;
+        this.avatar = avatar;
+        this.date = date;
+        this.likes = likes;
+        this.dislikes = dislikes;
+
+    }
+
+
+
+
+
+    public Post(String title, String description, int avatar, Date date, int likes, int dislikes) {
+        this.title = title;
+        this.description = description;
+        this.avatar = avatar;
+        this.date = date;
+        this.likes = likes;
+        this.dislikes = dislikes;
+    }
+
+
+
+
+    @Override
+    public int compareTo(Post other) {
+        return date.compareTo(other.getDate());
+    }
+
+
+
+
+
+
+
 
     public int getId() {
         return id;
@@ -43,6 +119,7 @@ public class Post {
         return title;
     }
 
+    public int getPopularity() { return likes - dislikes; }
 
 
     public void setTitle(String title) {
@@ -57,13 +134,13 @@ public class Post {
         this.description = description;
     }
 
-    public Bitmap getPhoto() {
+/*    public Bitmap getPhoto() {
         return photo;
     }
 
     public void setPhoto(Bitmap photo) {
         this.photo = photo;
-    }
+    }*/
 
     public User getAuthor() {
         return author;
@@ -89,19 +166,34 @@ public class Post {
         this.location = location;
     }
 
-    public List<Tag> getTags() {
+    public ArrayList<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(ArrayList<Tag> tags) {
         this.tags = tags;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public ArrayList<Comment> getComments() {
+        ArrayList<Comment> retval = new ArrayList<>();
+        for (Comment comment : comments) {
+            if (!comment.isDeleted())
+                retval.add(comment);
+
+        }
+
+
+     return retval;
     }
 
-    public void setComments(List<Comment> comments) {
+
+
+
+    public void addComment(Comment comment){
+        comments.add(comment);
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
     }
 

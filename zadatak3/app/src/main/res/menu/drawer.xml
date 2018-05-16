@@ -7,12 +7,7 @@
             android:id="@+id/nav_posts_pocetna"
             android:icon="@drawable/ic_home"
             android:title="@string/pocetna"/>
-
-        <item
-            android:id="@+id/navigation_item_post"
-            android:icon="@drawable/ic_post"
-            android:title="@string/citaj_Post"
-            />
+        
         <item
             android:id="@+id/navigation_create2_post"
             android:icon="@drawable/ic_read"
@@ -22,7 +17,10 @@
             android:icon="@drawable/ic_settings"
             android:title="@string/settings"
             />
-
+        <item
+            android:id="@+id/navigation_logout"
+            android:title="logout"
+            android:onClick="Izloguj_se"/>
 
     </group>
 

@@ -9,8 +9,6 @@ public class DrawerItemClickListener implements ListView.OnItemClickListener {
     private DrawerLayout drawerLayout;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        SettingsActivity sa = new SettingsActivity();
-        sa.selectItem(position);
-        drawerLayout.closeDrawers();
-    }
+    //Ovde je bilo hendlovano za settings drawer
+}
 }
