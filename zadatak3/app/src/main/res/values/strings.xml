@@ -30,6 +30,12 @@
 
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 
+
+    <string name="action_delete">Delete</string>
+    <string name="action_accept">Accept</string>
+    <string name="action_cancel">Cancel</string>
+
+
     <string name="nav_prikazi">Prikazi postove</string>
     <string name="nav_objavi">Kreiraj post</string>
     <string name="nav_settings">Podesavanja</string>
@@ -38,8 +44,9 @@
     <string name="odustani">Odustani</string>
     <string name="pocetna">Pocetna stranica</string>
 
-
-
+    <string name="notifications">Notifications</string>
+    <string name="filter">Filter</string>
+    <string name="enterNewAdminName">Enter new admin name:</string>
     <string name="home_long">Map</string>
     <string name="groups_long">User groups</string>
     <string name="places_long">Places to review</string>

@@ -19,55 +19,55 @@ import com.example.user.aplikacija.ReadPostActivity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Post;
 import tools.Mockup;
 
 public class PostsAdapter extends ArrayAdapter<Post> {
     private Context context;
-    private int resource;
-    ArrayList<Post> posts = new ArrayList<Post>();
+    //private int resource;
+    //ArrayList<Post> posts = new ArrayList<Post>();
 
 
-    public PostsAdapter(@NonNull Context context, int resource, ArrayList<Post> posts) {
-        super(context, resource, posts);
+    public PostsAdapter(Context context, List<Post> posts) {
+        super(context, 0, posts);
         this.context = context;
-        this.resource = resource;
-        this.posts = posts;
+
     }
 
 
-    @Override
-    public int getCount() {
-        return Mockup.getPosts().size();
-    }
+   // @Override
+   // public int getCount() {
+    //    return Mockup.getPosts().size();
+    //}
 
 
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+    //@Override
+  //  public long getItemId(int position) {
+   //     return position;
+   // }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View vi=convertView;
-        final Post post = Mockup.getPosts().get(position);
+        //View vi=convertView;
+        final Post post = getItem(position);
 
-        if(convertView==null)
-            convertView = LayoutInflater.from(context).inflate(resource, parent, false);
-
+        if(convertView==null){
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.posts_list, parent, false);
+        }
 
         TextView title = (TextView)convertView.findViewById(R.id.title);
         TextView description = (TextView)convertView.findViewById(R.id.description);
-        ImageView image = (ImageView)convertView.findViewById(R.id.item_icon);
+        //ImageView image = (ImageView)convertView.findViewById(R.id.item_icon);
         TextView tvDate = (TextView)convertView.findViewById(R.id.date);
         TextView tvPopularity = (TextView) convertView.findViewById(R.id.popularity);
 
         title.setText(post.getTitle());
         description.setText(post.getDescription());
 
-        if (post.getAvatar() == -1){
+    /*    if (post.getAvatar() == -1){
             image.setImageResource(R.drawable.einstein);
         }
         if (post.getAvatar() == -2){
@@ -81,10 +81,10 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         }
         if (post.getAvatar() == -5){
             image.setImageResource(R.drawable.kepler);
-        }
+        }*/
 
 
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(post.getDate());
         tvDate.setText(strDate);
 
@@ -97,6 +97,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         }
         tvPopularity.setText(popularity);
 
+/*
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +107,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
                 context.startActivity(intent);
             }
         });
+*/
 
 
         return  convertView;

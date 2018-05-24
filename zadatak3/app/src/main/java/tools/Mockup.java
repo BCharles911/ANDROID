@@ -11,10 +11,12 @@ import model.Comment;
 import model.Post;
 
 public abstract class Mockup {
+/*
 
     public static ArrayList<Post> getPosts(){
         ArrayList<Post> posts = new ArrayList<Post>();
-
+*/
+/*
 
        Comment c1 = new Comment("Ajnstajn je krao od Mileve", "ajnstajn i teorija relativiteta", new Date(2016,12,12),12,2);
        Comment c2 = new Comment("Ajnstajn je veliki naucnik", "Ajnstajn je uneo promene u nauku", new Date(2015,07,10),60,10);
@@ -38,8 +40,14 @@ public abstract class Mockup {
         posts.add(p3);
         posts.add(p4);
         posts.add(p5);
-        return posts;
+        return posts;*//*
+
     }
+*/
+
+
+
+
 
 
 }

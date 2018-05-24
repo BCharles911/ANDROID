@@ -1,5 +1,6 @@
 package com.example.user.aplikacija;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +16,9 @@ import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -28,9 +31,11 @@ import java.util.Date;
 import java.util.List;
 
 import Utils.PostService;
+import Utils.RetrofitObject;
 import Utils.UserService;
 import adapters.CommentsAdapter;
 import adapters.PostsAdapter;
+import de.hdodenhof.circleimageview.CircleImageView;
 import model.Comment;
 import model.Post;
 import model.User;
@@ -41,9 +46,10 @@ import tools.Mockup;
 
 public class PostsActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
-    private ArrayList<Post> posts;
+    private List<Post> posts;
     private ArrayList<Comment> comments;
     private ListView listView;
+    private PostsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,36 +57,11 @@ public class PostsActivity extends AppCompatActivity {
 
 
 
-        PostService postService = PostService.retrofit.create(PostService.class);
-        final Call<JsonArray> call =
-                postService.doGetPosts();
-
-        call.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                List<Post> posts = Post.jsonArrayToList(response.body());
-                Toast.makeText(PostsActivity.this, posts.toString(), Toast.LENGTH_LONG).show();
-
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-
-            }
-        });
-
-
-
-
-
-
-
-
 
         setContentView(R.layout.activity_posts);
-        ArrayList<Comment>  comments = new ArrayList<Comment>();
+        /*ArrayList<Comment>  comments = new ArrayList<Comment>();
         Comment c1 = new Comment("Ajnstajn je krao od Mileve", "ajnstajn i teorija relativiteta", new Date(2016,12,12),12,2);
-        comments.add(c1);
+        comments.add(c1);*/
         // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -91,21 +72,36 @@ public class PostsActivity extends AppCompatActivity {
         actionBar.setIcon(R.drawable.ic_post);
 
 
-        listView = (ListView) findViewById(R.id.listPostView);
-       // posts = Mockup.getPosts();
-
-        PostsAdapter postAdapter = new PostsAdapter(this, R.layout.posts_list, posts);
-
-
-        listView.setAdapter(postAdapter);
-
-
-        sortPostBy(posts);
-
+        //  listView = (ListView) findViewById(R.id.listPostView);
+        // posts = Mockup.getPosts();
+        //listView = (ListView) findViewById(R.id.listPostView);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+
+        listView = findViewById(R.id.listPostView);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Post post = (Post) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(getApplicationContext(), ReadPostActivity.class);
+                intent.putExtra("postId", post.getId());
+                startActivity(intent);
+            }
+        });
+
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        SharedPreferences sharedPreferences = getSharedPreferences("sp", MODE_PRIVATE);
+        Integer id = sharedPreferences.getInt("userId", 0);
+        String username = sharedPreferences.getString("userEmail", null);
+
+        // postavljam mail i sliku u header.. mora ovde nakon inicijalizacije navigationView-a
+        //TextView headerEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.headerE);
+        //headerEmail.setText(username);
+
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -150,45 +146,75 @@ public class PostsActivity extends AppCompatActivity {
         });
 
 */
-    //    FragmentTransition.to(MyFragment.newInstance(), this, false);
+        //    FragmentTransition.to(MyFragment.newInstance(), this, false);
 
 
     }
 
+    private void sortPostByPref() {
 
+        if(posts == null || posts.isEmpty())
+            return;
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        String sortPostsBy = sp.getString("lpSortPostsBy", "default123");
 
+        // Sortiramo
+        if(sortPostsBy.equals("Date")) {
+            Collections.sort(posts, new Comparator<Post>() {
+                @Override
+                public int compare(Post post2, Post post1) {
+                    return post1.getDate().compareTo(post2.getDate());
+                }
+            });
+        } else if (sortPostsBy.equals("Popularity")) {
+            Collections.sort(posts, new Comparator<Post>() {
+                @Override
+                public int compare(Post post2, Post post1) {
+                    if(post1.getPopularity() > post2.getPopularity()){
+                        return 1;
+                    } else if (post1.getPopularity() < post2.getPopularity()){
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(this, "Sorting went wrong, posts unsorted!\n" + sortPostsBy, Toast.LENGTH_LONG).show();
+        }
+    }
 
 
     @Override
-        public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
         return super.onCreateView(parent, name, context, attrs);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_settings:
+                return true;
+
         }
 
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
-
-            switch (id) {
-                case android.R.id.home:
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                    return true;
-                case R.id.action_settings:
-                    return true;
-
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 
@@ -203,12 +229,36 @@ public class PostsActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        posts = Mockup.getPosts();
-        sortPostBy(posts);
 
-        PostsAdapter adapter = new PostsAdapter(this, R.layout.posts_list, posts);
-        listView = findViewById(R.id.listPostView);
-        listView.setAdapter(adapter);
+        PostService postService = RetrofitObject.retrofit.create(PostService.class);
+        Call<List<Post>> call =
+                postService.getAll();
+        final ProgressDialog progressDialog = Gadgets.getProgressDialog(this);
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+
+                try {
+                    progressDialog.dismiss();
+                    posts = response.body();
+                    sortPostByPref();
+                    PostsAdapter adapter = new PostsAdapter(getApplicationContext(), posts);
+                    listView.setAdapter(adapter);
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "nije uspelo", Toast.LENGTH_LONG).show();
+
+            }
+        });
 
 
 

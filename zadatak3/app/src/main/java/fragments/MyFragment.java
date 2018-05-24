@@ -48,22 +48,22 @@ public class MyFragment extends Fragment {
         String dateString = post.getDate().toString().substring(3, 16);
         postDate.setText(dateString);
 
-
-        if (post.getAvatar() == -1){
-            image.setImageResource(R.drawable.einstein);
-        }
-        if (post.getAvatar() == -2){
-            image.setImageResource(R.drawable.tesla);
-        }
-        if (post.getAvatar() == -3){
-            image.setImageResource(R.drawable.ramanujan);
-        }
-        if (post.getAvatar() == -4){
-            image.setImageResource(R.drawable.newton);
-        }
-        if (post.getAvatar() == -5){
-            image.setImageResource(R.drawable.kepler);
-        }
+//
+//        if (post.getAvatar() == -1){
+//            image.setImageResource(R.drawable.einstein);
+//        }
+//        if (post.getAvatar() == -2){
+//            image.setImageResource(R.drawable.tesla);
+//        }
+//        if (post.getAvatar() == -3){
+//            image.setImageResource(R.drawable.ramanujan);
+//        }
+//        if (post.getAvatar() == -4){
+//            image.setImageResource(R.drawable.newton);
+//        }
+//        if (post.getAvatar() == -5){
+//            image.setImageResource(R.drawable.kepler);
+//        }
 
         return myInflatedView;
     }

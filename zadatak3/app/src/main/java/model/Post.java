@@ -3,109 +3,125 @@ package model;
 import android.graphics.Bitmap;
 import android.location.Location;
 
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class Post implements Serializable, Comparable<Post> {
-
-    private int id;
-
+/**
+ * Class represents a post in app
+ */
+public class Post implements Serializable, Comparable<Post>{
+    private Integer id;
     private String title;
-
     private String description;
-
-    private int avatar;
-
-  //  private Bitmap photo;
+    private String image;
     private User author;
+    private Double longitude;
+    private Double latitude;
+
+
     private Date date;
-    private Location location;
-
-    private ArrayList<Tag> tags;
-
-    private List<Comment>  comments = new ArrayList<>();
-
+    private Set<Tag> tags = new HashSet<>();
+    private List<Comment> comments = new ArrayList<>();
     private int likes;
-
     private int dislikes;
 
-    public static List<Post> jsonArrayToList(JsonArray jsonArray){
-        List<Post> posts = new ArrayList<>();
-        for(JsonElement element : jsonArray){
-            JsonObject postJsonObject = element.getAsJsonObject();
-            Integer id = postJsonObject.get("id").getAsInt();
-            String title = postJsonObject.get("title").getAsString();
-            String description = postJsonObject.get("description").getAsString();
-            int likes = postJsonObject.get("likes").getAsInt();
-            int dislikes = postJsonObject.get("dislikes").getAsInt();
-            Post post = new Post();
-            post.setId(id);
-            post.setTitle(title);
-            post.setDescription(description);
-            post.setLikes(likes);
-            post.setDislikes(dislikes);
-            posts.add(post);
-        }
-        return posts;
+
+    public String getImage() {
+        return image;
     }
 
-
-    public Post(String title, String description, int avatar) {
-        this.title = title;
-        this.description = description;
-        this.avatar = avatar;
+    public void setImage(String image) {
+        this.image = image;
     }
+
 
     public Post(){
 
     }
 
 
+    public Post(Integer id,
+                   String title,
+                   String description,
+                   String image,
+                   User author,
+                   Date date,
+                   int likes,
+                   int dislikes) {
 
-    public Post(String title, String description,String author, int avatar, Date date, int likes, int dislikes) {
+        super();
+        this.id = id;
         this.title = title;
         this.description = description;
-        this.avatar = avatar;
+        this.image = image;
+        this.author = author;
         this.date = date;
         this.likes = likes;
         this.dislikes = dislikes;
 
     }
 
-
-
-
-
-    public Post(String title, String description, int avatar, Date date, int likes, int dislikes) {
+    public Post(String title, String description){
         this.title = title;
         this.description = description;
-        this.avatar = avatar;
+    }
+
+    public Post(String title, String description, Date date){
+        this.title = title;
+        this.description = description;
+        this.date = date;
+    }
+
+    public Post(String title, String description, Date date, int likes, int dislikes){
+        this.title = title;
+        this.description = description;
         this.date = date;
         this.likes = likes;
         this.dislikes = dislikes;
     }
 
 
+    public Post(String title, String description, String image, User author, Date date, int likes, int dislikes){
+        this.title = title;
+        this.description = description;
+        this.image = image;
+        this.date = date;
+        this.likes = likes;
+        this.author = author;
+        this.dislikes = dislikes;
+    }
 
+
+    public void like(){
+        this.likes++;
+    }
+
+    public void dislike(){
+        this.dislikes++;
+    }
+
+    /**
+     * Metoda koja setuje location polje objekta koristeci polja longitude i latitude
+     */
 
     @Override
     public int compareTo(Post other) {
         return date.compareTo(other.getDate());
     }
 
-
-
-
-
-
-
+    /**
+     * Metoda kojom dobijamo 'popularnost' odredjenog posta.
+     * Posto u projektnoj specifikaciji popularnost kao takva nije definisana, definisem je kao razlika lajkova i dislajkova
+     *
+     * @return integer - razlika lajkova i dislajkova
+     */
+    public int getPopularity(){
+        return likes - dislikes;
+    }
 
     public int getId() {
         return id;
@@ -119,9 +135,6 @@ public class Post implements Serializable, Comparable<Post> {
         return title;
     }
 
-    public int getPopularity() { return likes - dislikes; }
-
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -134,13 +147,13 @@ public class Post implements Serializable, Comparable<Post> {
         this.description = description;
     }
 
-/*    public Bitmap getPhoto() {
-        return photo;
+    public String getPhoto() {
+        return image;
     }
 
-    public void setPhoto(Bitmap photo) {
-        this.photo = photo;
-    }*/
+    public void setPhoto(String photo) {
+        this.image = photo;
+    }
 
     public User getAuthor() {
         return author;
@@ -158,43 +171,39 @@ public class Post implements Serializable, Comparable<Post> {
         this.date = date;
     }
 
-    public Location getLocation() {
-        return location;
+
+
+    public void makeLocation(double latitude, double longitude){
+
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public ArrayList<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<Tag> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
+    /**
+     * Filters comments by deleted attribute
+     * @return returns a list of not-deleted comments
+     */
     public ArrayList<Comment> getComments() {
         ArrayList<Comment> retval = new ArrayList<>();
-        for (Comment comment : comments) {
-            if (!comment.isDeleted())
+        for(Comment comment : comments){
+            if(!comment.isDeleted())
                 retval.add(comment);
-
         }
-
-
-     return retval;
+        return retval;
     }
 
-
-
-
+    /**
+     * Adds a comment to the post
+     * @param comment
+     */
     public void addComment(Comment comment){
         comments.add(comment);
-    }
-
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
     }
 
     public int getLikes() {
@@ -213,19 +222,29 @@ public class Post implements Serializable, Comparable<Post> {
         this.dislikes = dislikes;
     }
 
-
-    public int getAvatar() {
-        return avatar;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setAvatar(int avatar) {
-        this.avatar = avatar;
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
 
-    @Override
-    public String toString() {
-        return  "title: " + title + "\n"  +
-                "description: " + description + "\n" ;
-    }
 }

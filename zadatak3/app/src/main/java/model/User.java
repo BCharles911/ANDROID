@@ -12,9 +12,9 @@ public class User {
 
     private String name;
 
-    private Bitmap photo;
     private String username;
     private String password;
+    private String role;
     private List<Post> posts;
     private List<Comment> comments;
 
@@ -34,13 +34,6 @@ public class User {
         this.name = name;
     }
 
-    public Bitmap getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(Bitmap photo) {
-        this.photo = photo;
-    }
 
     public String getUsername() {
         return username;

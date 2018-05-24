@@ -32,7 +32,7 @@
 
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/etTitle"
             android:layout_width="315dp"
             android:layout_height="56dp"
             android:layout_marginBottom="415dp"
@@ -51,7 +51,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/etDescription"
             android:layout_width="313dp"
             android:layout_height="114dp"
             android:hint="@string/opis_posta"
@@ -66,7 +66,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -82,7 +82,7 @@
             app:layout_constraintBottom_toTopOf="@+id/button2"
             app:layout_constraintEnd_toStartOf="@+id/button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText2"
+            app:layout_constraintTop_toBottomOf="@+id/etDescription"
             app:srcCompat="@android:color/background_light" />
 
         <Button
@@ -99,7 +99,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/editText2" />
+            app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
         <Button
             android:id="@+id/button2"
@@ -114,7 +114,7 @@
             android:text="@string/kreiraj_post_dugme"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/editText2"
+            app:layout_constraintStart_toEndOf="@+id/etDescription"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
