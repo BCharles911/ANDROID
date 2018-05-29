@@ -18,23 +18,32 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import Utils.CommentService;
 import Utils.PostService;
 import Utils.RetrofitObject;
 import de.hdodenhof.circleimageview.CircleImageView;
 import fragments.CommentFragment;
 import fragments.MyFragment;
+import model.Comment;
 import model.Post;
+import model.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,9 +63,9 @@ public class ReadPostActivity extends AppCompatActivity implements CommentDialog
     private Post activityPost;
 
     // id i mail ulogovanog user-a
-    private int loggedInUserId;
+   // private int id;
     private String loggedInUserMail;
-
+    private int loggedInUser;
     // dugme za brisanje posta
     private MenuItem deleteButton;
 
@@ -69,21 +78,17 @@ public class ReadPostActivity extends AppCompatActivity implements CommentDialog
         setContentView(R.layout.activity_read_post);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+       // setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
 
         postId = getIntent().getExtras().getInt("postId");
 
-  /*
-        Post post = (Post) getIntent().getSerializableExtra("post");
-        this.activityPost = post;
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-*/
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        //mViewPager.setAdapter(mSectionsPagerAdapter);
+
 
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
@@ -105,19 +110,26 @@ public class ReadPostActivity extends AppCompatActivity implements CommentDialog
 
         // izvlacim id i mail iz sharedPref sacuvane u login activity
         SharedPreferences sharedPreferences = getSharedPreferences("sp", MODE_PRIVATE);
-        this.loggedInUserId = sharedPreferences.getInt("userId", 0);
-        this.loggedInUserMail = sharedPreferences.getString("userEmail", null);
+        this.loggedInUser = sharedPreferences.getInt("userId", 0);
+        String username = sharedPreferences.getString("username", null);
+        String name = sharedPreferences.getString("name", null);
+        String picture = sharedPreferences.getString("picture", null);
 
         // postavljam mail i sliku u header.. mora ovde nakon inicijalizacije navigationView-a
         TextView headerEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.email);
-        headerEmail.setText(loggedInUserMail);
+        headerEmail.setText(username);
+        User user = new User();
+
+        user.setId(loggedInUser);
+        user.setName(user.getName());
+
+        TextView nameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.name) ;
+        nameView.setText(name);
+
 
         CircleImageView headerUserPicture = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.circleView);
-        if (loggedInUserMail.equals("andrej")) {
-            headerUserPicture.setImageDrawable(getResources().getDrawable(R.drawable.einstein));
-        } else {
-            headerUserPicture.setImageDrawable(getResources().getDrawable(R.drawable.newton));
-        }
+
+        Picasso.with(getApplicationContext()).load(picture).into(headerUserPicture);
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -181,9 +193,8 @@ public class ReadPostActivity extends AppCompatActivity implements CommentDialog
             public void onResponse(Call<Post> call, Response<Post> response) {
                 activityPost = response.body();
 
-                if (activityPost.getAuthor().getId() == loggedInUserId) {
+                if (loggedInUser == activityPost.getAuthor().getId())
                     deleteButton.setVisible(true);
-                }
 
                 mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
                 mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -226,11 +237,99 @@ public class ReadPostActivity extends AppCompatActivity implements CommentDialog
         if (id == R.id.action_delete) {
             btnDeletePost();
         } else if (id == R.id.action_new) {
-            openDialog();
+            createComment();
         }
 
         return super.onOptionsItemSelected(menuItem);
     }
+
+
+    private void createComment() {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_comment, null);
+
+        final EditText etCommentTitle = view.findViewById(R.id.etCommentTitle);
+        final EditText etCommentDescription = view.findViewById(R.id.etCommentDescription);
+
+        final AlertDialog commentDialog = new AlertDialog.Builder(this)
+                .setTitle("Comment: ")
+                .setCancelable(true)
+                .setView(view)
+                // Override-ujemo defaultno ponasanje dugmica, dugmici su najbolji bend
+                .setPositiveButton("Finish", null)
+                .setNegativeButton("Cancel", null)
+                .create();
+
+        commentDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                Button buttonPositive = commentDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                buttonPositive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String commentTitle = etCommentTitle.getText().toString();
+                        String commentDescription = etCommentDescription.getText().toString();
+
+                        if (commentDescription.isEmpty() || commentTitle.isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "All field is required!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Comment comment = new Comment();
+                            comment.setTitle(commentTitle);
+                            comment.setDescription(commentDescription);
+                            Post post = new Post();
+                            post.setId(activityPost.getId());
+                            comment.setPost(post);
+                            User user = new User();
+
+                            user.setId(loggedInUser);
+
+                            comment.setAuthor(user);
+
+                            CommentService commentService = RetrofitObject.retrofit.create(CommentService.class);
+                            Call<Comment> call = commentService.createComment(comment);
+
+                            call.enqueue(new Callback<Comment>() {
+                                @Override
+                                public void onResponse(Call<Comment> call, Response<Comment> response) {
+                                    Comment comment = new Comment();
+                                    if (comment == null) {
+                                        Toast.makeText(getApplicationContext(), "Error, comment = null! ", Toast.LENGTH_LONG).show();
+                                        commentDialog.cancel();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Comment created successful", Toast.LENGTH_SHORT).show();
+                                        commentDialog.cancel();
+                                        onResume();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Comment> call, Throwable t) {
+                                    Toast.makeText(getApplicationContext(), "Comment created successful 1", Toast.LENGTH_LONG).show();
+                                    commentDialog.cancel();
+                                    Intent i = new Intent(getApplicationContext(), PostsActivity.class);
+                                    startActivity(i);
+                                    finish();
+
+                                }
+                            });
+                        }
+                    }
+                });
+
+                Button buttonNegative = commentDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                buttonNegative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        commentDialog.cancel();
+                    }
+                });
+            }
+        });
+        commentDialog.show();
+    }
+
+
 
 
     private void openDialog() {
@@ -325,5 +424,14 @@ public class ReadPostActivity extends AppCompatActivity implements CommentDialog
         public int getCount() {
             return 2;
         }
+    }
+
+
+    public void Izloguj_se(MenuItem item) {
+
+        Intent createIntent = new Intent(ReadPostActivity.this, MainActivity.class);
+        startActivity(createIntent);
+        finish();
+
     }
 }

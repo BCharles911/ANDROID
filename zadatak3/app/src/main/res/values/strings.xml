@@ -35,7 +35,8 @@
     <string name="action_accept">Accept</string>
     <string name="action_cancel">Cancel</string>
 
-
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
     <string name="nav_prikazi">Prikazi postove</string>
     <string name="nav_objavi">Kreiraj post</string>
     <string name="nav_settings">Podesavanja</string>

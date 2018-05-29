@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -63,9 +64,10 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         //ImageView image = (ImageView)convertView.findViewById(R.id.item_icon);
         TextView tvDate = (TextView)convertView.findViewById(R.id.date);
         TextView tvPopularity = (TextView) convertView.findViewById(R.id.popularity);
-
+       // TextView tvAuthor = (TextView) convertView.findViewById(R.id.tvAuthor);
         title.setText(post.getTitle());
         description.setText(post.getDescription());
+        //TextView tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
 
     /*    if (post.getAvatar() == -1){
             image.setImageResource(R.drawable.einstein);
@@ -86,8 +88,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(post.getDate());
-        tvDate.setText(strDate);
-
+        //tvAuthor.setText(post.getAuthor().getName());
 
         String popularity = Integer.toString(post.getPopularity());
         if (post.getPopularity() > 0) {

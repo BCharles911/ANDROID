@@ -1,22 +1,51 @@
 package model;
 
-import android.graphics.Bitmap;
-
 import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import model.Role;
 
 public class User {
 
-
-
     private int id;
-
     private String name;
-
     private String username;
     private String password;
-    private String role;
+    private List<Role> roles;
     private List<Post> posts;
     private List<Comment> comments;
+    private String image;
+
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public User() {
+    }
+
+    /**
+     *
+     * @param id
+     * @param username
+     * @param roles
+     * @param name
+     * @param posts
+     * @param image
+     * @param password
+     * @param comments
+     */
+    public User(int id, String name, String username, String password, List<Role> roles, List<Post> posts, List<Comment> comments, String image) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+        this.posts = posts;
+        this.comments = comments;
+        this.image = image;
+    }
 
     public int getId() {
         return id;
@@ -34,7 +63,6 @@ public class User {
         this.name = name;
     }
 
-
     public String getUsername() {
         return username;
     }
@@ -49,6 +77,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public List<Post> getPosts() {
@@ -67,5 +103,12 @@ public class User {
         this.comments = comments;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
 }

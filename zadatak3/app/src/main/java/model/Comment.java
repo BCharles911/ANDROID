@@ -38,6 +38,18 @@ public class Comment implements Serializable {
     }
     // private AsyncTask.Status status;
 
+    public Comment(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public void like(){
+        this.likes++;
+    }
+
+    public void dislike(){
+        this.dislikes++;
+    }
 
 
     public int getPopularity(){
@@ -108,11 +120,11 @@ public class Comment implements Serializable {
         this.dislikes = dislikes;
     }
 
-  //  public Status getStatus() {
-  //      return status;
-  //  }
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 
-  //  public void setStatus(Status status) {
-  //      this.status = status;
-  //  }
 }

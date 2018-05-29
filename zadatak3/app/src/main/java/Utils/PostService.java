@@ -21,16 +21,16 @@ import retrofit2.http.Path;
 public interface PostService {
 
 
-    @GET("api/posts")
-    Call<List<Post>> getAll(
+    @GET(value = "api/posts/")
+    Call<List<Post>> getPosts(
 
 
     );
 
-    @GET("api/posts/{postId}")
+    @GET("api/posts/{postId}/")
     Call<Post> getOne (
 
-            @Path("pathId") int postId
+            @Path("postId") int postId
     );
 
 
@@ -42,16 +42,16 @@ public interface PostService {
 
 
     @PATCH("api/posts/{postId}/like")
-    Call<ResponseBody> likePost(
+    Call<ResponseBody> updateLikes(
             @Path("postId") int postId
     );
 
     @PATCH("api/posts/{postId}/dislike")
-    Call<ResponseBody> dislikePost(
+    Call<ResponseBody> updateDislikes(
             @Path("postId") int postId
     );
 
-    @DELETE("api/posts/{postId}")
+    @DELETE("api/posts/{postId}/")
     Call<ResponseBody> deletePost(@Path("postId") int postId);
 
 }

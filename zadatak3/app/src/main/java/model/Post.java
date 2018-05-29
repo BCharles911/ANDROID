@@ -3,6 +3,9 @@ package model;
 import android.graphics.Bitmap;
 import android.location.Location;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,55 +17,53 @@ import java.util.Set;
  * Class represents a post in app
  */
 public class Post implements Serializable, Comparable<Post>{
+
     private Integer id;
     private String title;
     private String description;
     private String image;
     private User author;
+    private transient Location location;
     private Double longitude;
     private Double latitude;
-
-
     private Date date;
-    private Set<Tag> tags = new HashSet<>();
-    private List<Comment> comments = new ArrayList<>();
+    private Set<Tag> tags;
+    private List<Comment> comments;
     private int likes;
     private int dislikes;
 
 
-    public String getImage() {
-        return image;
+
+public Post(){
+
+}
+
+
+    public Post(int id, String title, String description, User author, Date date, Location location, Set<Tag> tags, ArrayList<Comment> comments, int likes, int dislikes) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.author = author;
+        this.location = location;
+        this.date = date;
+        this.tags = tags;
+        this.comments = comments;
+        this.likes = likes;
+        this.dislikes = dislikes;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-
-    public Post(){
-
-    }
-
-
-    public Post(Integer id,
-                   String title,
-                   String description,
-                   String image,
-                   User author,
-                   Date date,
-                   int likes,
-                   int dislikes) {
-
-        super();
+    public Post(int id, String title, String description, String photoUrl, Date date, Location location, int likes, int dislikes, User author, Set<Tag> tags, List<Comment> comments) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.image = image;
-        this.author = author;
         this.date = date;
+        this.location = location;
         this.likes = likes;
         this.dislikes = dislikes;
-
+        this.author = author;
+        this.tags = tags;
+        this.comments = comments;
     }
 
     public Post(String title, String description){
@@ -70,30 +71,28 @@ public class Post implements Serializable, Comparable<Post>{
         this.description = description;
     }
 
-    public Post(String title, String description, Date date){
-        this.title = title;
-        this.description = description;
-        this.date = date;
-    }
+/*
 
-    public Post(String title, String description, Date date, int likes, int dislikes){
+    public Post(String title, String description, int avatar) {
         this.title = title;
         this.description = description;
+        this.avatar = avatar;
+    }
+*/
+
+
+    public Post(String title, String description, Date date, int likes, int dislikes, User author) {
+        this.title = title;
+        this.description = description;
+        //this.avatar = avatar;
         this.date = date;
         this.likes = likes;
         this.dislikes = dislikes;
-    }
-
-
-    public Post(String title, String description, String image, User author, Date date, int likes, int dislikes){
-        this.title = title;
-        this.description = description;
-        this.image = image;
-        this.date = date;
-        this.likes = likes;
         this.author = author;
-        this.dislikes = dislikes;
     }
+
+
+
 
 
     public void like(){
@@ -170,7 +169,13 @@ public class Post implements Serializable, Comparable<Post>{
     public void setDate(Date date) {
         this.date = date;
     }
+    public String getImage() {
+        return image;
+    }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
 
 
     public void makeLocation(double latitude, double longitude){

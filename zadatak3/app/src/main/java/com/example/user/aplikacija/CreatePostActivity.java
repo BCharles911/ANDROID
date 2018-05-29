@@ -32,6 +32,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.squareup.picasso.Picasso;
 
 import java.net.URI;
 import java.net.URL;
@@ -76,7 +77,7 @@ public class CreatePostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.createtoolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //          setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -93,18 +94,26 @@ public class CreatePostActivity extends AppCompatActivity {
         // izvlacim id i mail iz sharedPref sacuvane u login activity
         SharedPreferences sharedPreferences = getSharedPreferences("sp", MODE_PRIVATE);
         Integer id = sharedPreferences.getInt("userId", 0);
-        String email = sharedPreferences.getString("userEmail", null);
+        String username = sharedPreferences.getString("username", null);
+        String name = sharedPreferences.getString("name", null);
+        String picture = sharedPreferences.getString("picture", null);
 
         // postavljam mail i sliku u header.. mora ovde nakon inicijalizacije navigationView-a
         TextView headerEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.email);
-        headerEmail.setText(email);
+        headerEmail.setText(username);
+        User user = new User();
+
+        user.setId(id);
+        user.setName(user.getName());
+
+        TextView nameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.name) ;
+        nameView.setText(name);
+
 
         CircleImageView headerUserPicture = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.circleView);
-        if (email.equals("milos@gmail.com")) {
-            headerUserPicture.setImageDrawable(getResources().getDrawable(R.drawable.newton));
-        } else {
-            headerUserPicture.setImageDrawable(getResources().getDrawable(R.drawable.einstein));
-        }
+
+        Picasso.with(getApplicationContext()).load(picture).into(headerUserPicture);
+
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -220,6 +229,7 @@ public class CreatePostActivity extends AppCompatActivity {
         switch (id) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
+
                 return true;
             case R.id.action_accept:
                 createPost();
@@ -235,8 +245,8 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     private void createPost() {
-        TextView tvTitle = findViewById(R.id.etTitle);
-        TextView tvDescription = findViewById(R.id.etDescription);
+        TextView tvTitle = findViewById(R.id.etTitlePost);
+        TextView tvDescription = findViewById(R.id.etDescriptionPost);
 
         String title = tvTitle.getEditableText().toString();
         String description = tvDescription.getEditableText().toString();
@@ -331,7 +341,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
 
 
-    //po miljusevom
+
 
     private void getLocationPermission(){
         String [] permissions = {FINE_LOCATION, COARSE_LOCATION};

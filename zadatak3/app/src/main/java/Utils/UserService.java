@@ -15,12 +15,12 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface UserService {
-    @GET("api/users")
-    Call<List<User>> getAll (
+    @GET(value = "/api/users/")
+    Call<List<User>> getUsers (
             // implementirat TODO
     );
 
-    @GET("api/users/{userId}")
+    @GET("/users/{userId}/")
     Call<User> getOne (
             @Path("userId") int userId
     );
@@ -30,7 +30,7 @@ public interface UserService {
      * @return User
      */
     @FormUrlEncoded
-    @POST("api/users/login")
+    @POST("/users/login/")
     Call<User> checkLogin(
             @Field("username") String username,
             @Field("password") String password

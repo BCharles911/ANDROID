@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
 
                 UserService userService = RetrofitObject.retrofit.create(UserService.class);
-                retrofit2.Call<List<User>> call = userService.getAll();
+                retrofit2.Call<List<User>> call = userService.getUsers();
 
                 call.enqueue(new Callback<List<User>>() {
                     @Override
@@ -72,8 +72,13 @@ public class MainActivity extends AppCompatActivity {
                                 Editor editor = sharedPreferences.edit();
                                 editor.putInt("userId", user.getId());
                                 editor.putString("username", user.getUsername());
+                                editor.putString("name", user.getName());
+                                editor.putString("picture", user.getImage());
                                 editor.apply();
-
+                                Intent i = new Intent(MainActivity.this, PostsActivity.class);
+                                //i.putExtra("loggedinUserEmail", email);
+                                startActivity(i);
+                                finish();
 
 
                             }
@@ -81,10 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        Intent i = new Intent(MainActivity.this, PostsActivity.class);
-                        //i.putExtra("loggedinUserEmail", email);
-                        startActivity(i);
-                        finish();
+
                         Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
                     }
 

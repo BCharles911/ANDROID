@@ -1,8 +1,25 @@
 package model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Tag {
+/**
+ * Created by User on 04.04.2018..
+ */
+
+public class Tag implements Serializable {
+    private int id;
+    private String name;
+    private List<Post> posts;
+
+    public Tag() {
+    }
+
+    public Tag(int id, String name, List<Post> posts) {
+        this.id = id;
+        this.name = name;
+        this.posts = posts;
+    }
 
     public int getId() {
         return id;
@@ -28,7 +45,10 @@ public class Tag {
         this.posts = posts;
     }
 
-    private int id;
-    private String name;
-    private List<Post> posts;
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

@@ -6,16 +6,21 @@
         <item
             android:id="@+id/nav_posts_pocetna"
             android:icon="@drawable/ic_home"
-            android:title="@string/pocetna"/>
+            android:title="@string/pocetna"
+            android:onClick= "Home_go"/>
         
         <item
             android:id="@+id/navigation_create2_post"
             android:icon="@drawable/ic_read"
-            android:title="@string/kreiraj_Post"/>
+            android:title="@string/kreiraj_Post"
+            android:onClick= "Create_go"
+            />
+
         <item
             android:id="@+id/navigation_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/settings"
+            android:onClick="Settings_go"
             />
         <item
             android:id="@+id/navigation_logout"

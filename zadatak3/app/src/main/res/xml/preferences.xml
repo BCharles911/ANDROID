@@ -1,46 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-
-
-    <CheckBoxPreference
-        android:id="@+id/cbTest"
-        android:key="checkBox"
-        android:defaultValue="true"
-        android:title="Check this by default" />
-
-    <SwitchPreference
-        android:id="@+id/notificationSwitch"
-        android:key="notificationSwitch"
-        android:title="@string/notifications"
-        android:defaultValue="true"
-        />
-
-
-    <ListPreference
-        android:id="@+id/listPreference"
-        android:key="listPreference"
-        android:title="Sleep Time"
-        android:entries="@array/sleepTimeOptions"
-        android:entryValues="@array/sleepTimeOptions"
-        android:defaultValue="15 minutes" />
-
     <PreferenceCategory
         android:title="Sort post"
         android:key="sync_settings">
 
 
+        <!--
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_sync"
+            android:summary="@string/pref_sync_summ"
+            android:title="@string/pref_sync_title" />
 
-
-
-
-
-        <Preference
-            android:selectable="false"
-            android:enabled="true"
-            android:key="imeUlogovanogKorisnika"
-            android:title="Ulogovan: "
-            android:summary="Ime ulogovanog korisnika" />
+        -->
 
         <ListPreference
             android:id="@+id/pref_sort_post"

@@ -19,12 +19,12 @@ public interface CommentService {
             );
 
     @PATCH("api/comments/{commentId}/like")
-    Call<ResponseBody> likeComment(
+    Call<ResponseBody> updateLikes(
             @Path("commentId") int CommentId
     );
 
     @PATCH("api/comments/{commentId}/dislike")
-    Call<ResponseBody> dislikeComment(
+    Call<ResponseBody> updateDislikes(
 
             @Path("commentId") int commentId
     );
